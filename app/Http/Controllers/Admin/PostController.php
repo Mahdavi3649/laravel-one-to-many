@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Models\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 
@@ -27,7 +28,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        //dd($categories);
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -38,12 +41,17 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        //dd($request->all());
         //validate data
         $validate_data = $request->validated();
+    
         // generate the slug
         $slug = Post::generateSlug($request->title);
 
         $validate_data['slug'] =$slug;
+        //dd($validate_data);
+        //$validate_data['category_id'] = $request->category_id;
+        
         //create the resource
         Post::create($validate_data);
         // redirect to get route
@@ -69,7 +77,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
