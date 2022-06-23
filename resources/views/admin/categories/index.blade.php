@@ -14,8 +14,8 @@
                 @csrf
                 <div class="mr-3">
                     <label for="name" class="form-label mb-0">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" aria-describedby="helpIdName" placeholder="Insert Name">
-                    <small id="helpIdName" class="form-text text-muted">Insert Name</small>
+                    <input type="text" class="form-control" name="name" id="name" aria-describedby="helpIdName" placeholder="insert category name">
+                    <small id="helpIdName" class="form-text text-muted">insert category name</small>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary mx-1 text-white">Add</button>
