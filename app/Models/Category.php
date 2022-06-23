@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+
+    protected $fillable = ['name','slug'];
+    
     /**
      * Get all of the posts for the Category
      *

@@ -10,6 +10,9 @@ s (12 sloc)  337 Bytes
 
     <div class="post-data px-4">
         <h1>{{$post->title}}</h1>
+        <div class="metadata">
+            Category: {{$post->category ? $post->category->name: 'uncategorized'}}
+        </div>
         <div class="content">
             {{$post->content}}
         </div>

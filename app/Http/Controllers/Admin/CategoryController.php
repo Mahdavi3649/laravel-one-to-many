@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
+
 
 class CategoryController extends Controller
 {
@@ -15,17 +18,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $categories = Category::orderByDesc('id')->get();
+        return view('admin.categories.index',compact('categories'));
     }
 
     /**
@@ -36,30 +30,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        $validate_data = $request->validate([
+            'name' => 'required|unique:categories'
+        ]);
+        //dd($validate_data);
+        $validate_data['slug'] = Str::slug($request->name);
+        Category::create($validate_data);
+        return redirect()->back()->with('status',"Category Added Successfully");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -70,7 +50,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+         //dd($request->all());
+         $validate_data = $request->validate([
+            'name' => 'required|unique:categories'
+        ]);
+
+        //dd($validate_data);
+        $validate_data['slug'] = Str::slug($request->name);
+        $category->update($validate_data);
+        return redirect()->back()->with('status', "Category $category->name Update SuccessFully");
     }
 
     /**
@@ -81,6 +69,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        
+        $category->delete();
+        return redirect()->back()->with('status',"Category $category->name Delete Succesfully");
     }
 }
